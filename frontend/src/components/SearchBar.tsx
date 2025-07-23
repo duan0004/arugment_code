@@ -147,3 +147,4 @@ export const SearchBar: React.FC = () => {
     </div>
   );
 };
+ 

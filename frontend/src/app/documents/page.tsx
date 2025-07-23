@@ -85,7 +85,7 @@ export default function DocumentsPage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-[#f6f7fa] to-[#e9ebf1] dark:from-darkbg dark:to-[#23232b] flex items-center justify-center animate-fade-in">
-        <div className="text-center">
+          <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-black dark:border-white mx-auto mb-4"></div>
           <p className="text-gray-500 dark:text-gray-300 text-lg font-medium">加载文档列表中...</p>
         </div>
@@ -98,16 +98,16 @@ export default function DocumentsPage() {
       {/* 头部 */}
       <div className="glass fixed top-0 left-0 w-full z-20 shadow-lg rounded-b-3xl backdrop-blur-md bg-white/70 dark:bg-darkglass border-b border-gray-100 dark:border-gray-800 animate-fade-in">
         <div className="container mx-auto px-4 sm:px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div>
+            <div>
             <h1 className="text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">我的文档</h1>
             <p className="text-gray-500 dark:text-gray-300 mt-1 text-base">管理您上传的PDF文献</p>
-          </div>
-          <button
-            onClick={() => router.push('/')} 
+            </div>
+            <button
+              onClick={() => router.push('/')}
             className="btn-primary flex items-center gap-2 text-base px-6 py-2"
-          >
+            >
             <FiUpload className="w-5 h-5" />上传新文档
-          </button>
+            </button>
         </div>
       </div>
 
@@ -118,7 +118,7 @@ export default function DocumentsPage() {
             <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">暂无文档</h3>
             <p className="text-gray-500 dark:text-gray-300 mb-8 text-base">您还没有上传任何PDF文献</p>
             <button
-              onClick={() => router.push('/')} 
+              onClick={() => router.push('/')}
               className="btn-primary text-lg px-8 py-2"
             >
               立即上传

@@ -1,4 +1,7 @@
 
+import dotenv from 'dotenv';
+dotenv.config();
+
 import express from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
@@ -15,7 +18,7 @@ import { notFound } from './middleware/notFound';
 import { errorHandler } from './middleware/errorHandler';
 
 const app = express();
-const PORT = 8000;
+const PORT = process.env.PORT || 8000;
 
 // 中间件
 app.use(helmet());

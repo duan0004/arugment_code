@@ -4,11 +4,20 @@ import axios from 'axios';
 
 const router = Router();
 
-const DEEPSEEK_API_KEY = 'sk-431f809401274d7ea71b59bf7a4ee6d5';
+const DEEPSEEK_API_KEY = process.env.DEEPSEEK_API_KEY;
 const DEEPSEEK_API_URL = 'https://api.deepseek.com/v1/chat/completions';
 const MODEL = 'deepseek-chat';
 
+// 检查API密钥是否配置
+if (!DEEPSEEK_API_KEY) {
+  console.warn('⚠️  DEEPSEEK_API_KEY 未配置，AI功能将不可用');
+}
+
 async function callDeepSeek(messages: any[], max_tokens = 512, temperature = 0.2): Promise<string> {
+  if (!DEEPSEEK_API_KEY) {
+    return 'DeepSeek API密钥未配置，请在环境变量中设置 DEEPSEEK_API_KEY';
+  }
+
   try {
     const response = await axios.post(
       DEEPSEEK_API_URL,
@@ -122,6 +131,48 @@ router.post('/summarize', async (req: Request, res: Response): Promise<void> => 
   } catch (error) {
     console.error('摘要生成错误:', error);
     res.status(500).json({ success: false, message: '摘要生成失败' });
+  }
+});
+
+// 关键词提取接口（调用DeepSeek）
+router.post('/keywords', async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { file_id } = req.body;
+    if (!file_id) {
+      res.status(400).json({ success: false, message: '文件ID不能为空' });
+      return;
+    }
+    const document = documents.get(file_id);
+    if (!document) {
+      res.status(404).json({ success: false, message: '文档不存在' });
+      return;
+    }
+
+    // 调用DeepSeek提取关键词
+    const prompt = `请从以下文档内容中提取5-10个最重要的关键词，用逗号分隔，只返回关键词列表，不要其他解释：\n\n${document.text_content.substring(0, 2000)}`;
+    const aiResponse = await callDeepSeek([
+      { role: 'system', content: '你是一个专业的关键词提取助手，请从文档中提取最重要的关键词。' },
+      { role: 'user', content: prompt }
+    ], 256, 0.1);
+
+    // 解析关键词
+    const keywords = aiResponse.split(',').map(k => k.trim()).filter(k => k.length > 0);
+
+    // 存储到内存文档
+    document.keywords = keywords;
+
+    res.json({
+      success: true,
+      message: '关键词提取成功',
+      data: {
+        file_id,
+        keywords,
+        extracted_at: new Date().toISOString()
+      }
+    });
+  } catch (error) {
+    console.error('关键词提取错误:', error);
+    res.status(500).json({ success: false, message: '关键词提取失败' });
   }
 });
 

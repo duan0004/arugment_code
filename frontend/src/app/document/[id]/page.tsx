@@ -162,7 +162,7 @@ export default function DocumentDetailPage() {
         <div className="text-center">
           <p className="text-gray-500 dark:text-gray-300 mb-4 text-lg">文档不存在</p>
           <button
-            onClick={() => router.push('/')} 
+            onClick={() => router.push('/')}
             className="btn-primary text-lg px-8 py-2"
           >
             返回首页
@@ -261,7 +261,7 @@ export default function DocumentDetailPage() {
                 <div><span className="font-semibold">大小：</span>{(document.file_size / 1024 / 1024).toFixed(2)} MB</div>
                 <div><span className="font-semibold">上传时间：</span>{document.upload_time.slice(0, 19).replace('T', ' ')}</div>
               </div>
-            </div>
+                </div>
             <div className="card shadow-xl rounded-3xl bg-white/80 dark:bg-darkglass backdrop-blur-md border border-gray-100 dark:border-gray-800 p-8 animate-fade-in">
               <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">内容预览</h3>
               <div className="text-gray-700 dark:text-gray-300 text-base whitespace-pre-line max-h-60 overflow-y-auto">

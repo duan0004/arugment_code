@@ -40,6 +40,7 @@
   "author": "AI Superman",
   "license": "MIT",
   "dependencies": {
+    "@prisma/client": "^6.12.0",
     "lucide-react": "^0.525.0"
   }
 }

@@ -1,0 +1,33 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  password     String?
+  provider     String   // local/google/github
+  provider_id  String?
+  nickname     String
+  avatar       String?
+  role         String   @default("user")
+  vip_expire_at DateTime?
+  created_at   DateTime @default(now())
+  orders       Order[]
+}
+
+model Order {
+  id              String   @id @default(uuid())
+  userId          String
+  user            User     @relation(fields: [userId], references: [id])
+  amount          Int
+  currency        String
+  status          String
+  stripeSessionId String
+  created_at      DateTime @default(now())
+} 

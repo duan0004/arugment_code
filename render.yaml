@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: backend
+    env: node
+    rootDir: backend
+    buildCommand: npm install && npm run build
+    startCommand: npm run start
+    plan: free
+    envVars:
+      - key: NODE_ENV
+        value: production
+      # 你可以在这里添加更多后端环境变量
+
+  - type: web
+    name: frontend
+    env: node
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    startCommand: npm run start
+    plan: free
+    envVars:
+      - key: NODE_ENV
+        value: production
+      # 你可以在这里添加更多前端环境变量 
