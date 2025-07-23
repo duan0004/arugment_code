@@ -13,6 +13,9 @@ import documentRoutes from './routes/document';
 import aiRoutes from './routes/ai';
 import arxivRoutes from './routes/arxiv';
 import semanticRoutes from './routes/semantic';
+import vectorRoutes from './routes/vector';
+import authRoutes from './routes/auth';
+import batchRoutes from './routes/batch';
 
 import { notFound } from './middleware/notFound';
 import { errorHandler } from './middleware/errorHandler';
@@ -43,11 +46,14 @@ app.get('/health', (req, res) => {
 });
 
 // API路由
+app.use('/api/auth', authRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/documents', documentRoutes);
 app.use('/api/ai', aiRoutes);
 app.use('/api/arxiv', arxivRoutes);
 app.use('/api/semantic', semanticRoutes);
+app.use('/api/vector', vectorRoutes);
+app.use('/api/batch', batchRoutes);
 
 // 错误处理中间件
 app.use(notFound);

@@ -1,0 +1,45 @@
+{
+  "name": "文献智能解读系统",
+  "description": "基于AI的文献智能解读和问答系统，支持PDF文档上传、语义搜索、智能问答等功能",
+  "services": [
+    {
+      "name": "backend",
+      "path": "./backend",
+      "type": "nodejs",
+      "buildCommand": "npm run build",
+      "startCommand": "npm start",
+      "port": 8000,
+      "env": {
+        "NODE_ENV": "production",
+        "PORT": "8000"
+      }
+    },
+    {
+      "name": "frontend",
+      "path": "./frontend",
+      "type": "nextjs",
+      "buildCommand": "npm run build",
+      "startCommand": "npm start",
+      "port": 3000,
+      "env": {
+        "NODE_ENV": "production",
+        "NEXT_PUBLIC_API_URL": "${backend.url}"
+      }
+    },
+    {
+      "name": "database",
+      "type": "postgresql",
+      "version": "15"
+    }
+  ],
+  "domains": [
+    {
+      "service": "frontend",
+      "domain": "*.zeabur.app"
+    },
+    {
+      "service": "backend",
+      "domain": "api-*.zeabur.app"
+    }
+  ]
+}

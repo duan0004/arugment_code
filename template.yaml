@@ -1,0 +1,146 @@
+apiVersion: zeabur.com/v1
+kind: Template
+metadata:
+  name: literature-ai-system
+spec:
+  name: 文献智能解读系统
+  description: 基于AI的文献智能解读和问答系统，支持PDF文档上传、语义搜索、智能问答等功能
+  icon: https://raw.githubusercontent.com/your-repo/main/assets/icon.png
+  tags:
+    - AI
+    - NLP
+    - PDF
+    - Document
+    - Chat
+    - Search
+  readme: |
+    # 文献智能解读系统
+
+    这是一个基于AI的文献智能解读和问答系统，具有以下核心功能：
+
+    ## 🚀 核心功能
+
+    - **📄 PDF文档上传**: 支持PDF文档上传和自动解析
+    - **🤖 AI智能问答**: 基于文档内容的智能对话系统
+    - **🔍 语义搜索**: 向量化搜索和相似度匹配
+    - **👥 用户管理**: 完整的用户认证和权限控制
+    - **📊 批量处理**: 高效的文件批量处理队列
+    - **🛡️ 安全可靠**: 优雅降级机制和完善的错误处理
+
+    ## 🔧 技术栈
+
+    - **前端**: Next.js 14, React 18, TypeScript, Tailwind CSS
+    - **后端**: Node.js, Express, TypeScript, Prisma
+    - **数据库**: PostgreSQL
+    - **AI服务**: OpenAI GPT, DeepSeek
+    - **队列**: Redis (可选)
+
+    ## 📋 环境变量
+
+    部署后请设置以下环境变量：
+
+    - `OPENAI_API_KEY`: OpenAI API 密钥
+    - `DEEPSEEK_API_KEY`: DeepSeek API 密钥
+
+    ## 🎯 使用场景
+
+    - 学术研究文献分析
+    - 企业文档智能问答
+    - 知识库构建和检索
+    - 文档内容理解和总结
+
+  services:
+    - name: database
+      icon: https://raw.githubusercontent.com/zeabur/service-icons/main/marketplace/postgresql.svg
+      template: POSTGRESQL
+      
+    - name: backend
+      icon: https://raw.githubusercontent.com/zeabur/service-icons/main/marketplace/nodejs.svg
+      template: NODEJS
+      source:
+        type: git
+        url: https://github.com/your-username/literature-ai-system
+        branch: main
+        dir: backend
+      ports:
+        - id: main
+          port: 8000
+          type: HTTP
+      env:
+        NODE_ENV:
+          default: production
+        PORT:
+          default: "8000"
+        JWT_SECRET:
+          default: ${RANDOM_PASSWORD_32}
+        DATABASE_URL:
+          default: ${database.DATABASE_URL}
+        REDIS_URL:
+          default: ${redis.REDIS_URL}
+        CORS_ORIGIN:
+          default: ${frontend.ZEABUR_WEB_URL}
+      volumes:
+        - id: uploads
+          dir: /app/uploads
+      
+    - name: frontend
+      icon: https://raw.githubusercontent.com/zeabur/service-icons/main/marketplace/nextjs.svg
+      template: NEXTJS
+      source:
+        type: git
+        url: https://github.com/your-username/literature-ai-system
+        branch: main
+        dir: frontend
+      ports:
+        - id: main
+          port: 3000
+          type: HTTP
+      env:
+        NODE_ENV:
+          default: production
+        NEXT_PUBLIC_API_URL:
+          default: ${backend.ZEABUR_WEB_URL}
+        NEXT_PUBLIC_APP_NAME:
+          default: "文献智能解读系统"
+        NEXT_PUBLIC_APP_VERSION:
+          default: "1.0.0"
+          
+    - name: redis
+      icon: https://raw.githubusercontent.com/zeabur/service-icons/main/marketplace/redis.svg
+      template: REDIS
+      optional: true
+
+  instructions:
+    - type: TEXT
+      title: 🎉 部署成功！
+      content: |
+        您的文献智能解读系统已成功部署！
+
+        ## 📋 下一步操作：
+
+        1. **设置 API 密钥**（必需）：
+           - 进入后端服务设置
+           - 添加环境变量 `OPENAI_API_KEY`
+           - 添加环境变量 `DEEPSEEK_API_KEY`
+
+        2. **访问应用**：
+           - 前端地址：${frontend.ZEABUR_WEB_URL}
+           - 后端 API：${backend.ZEABUR_WEB_URL}
+
+        3. **功能测试**：
+           - 注册用户账号
+           - 上传 PDF 文档
+           - 尝试 AI 问答功能
+
+        ## ⚠️ 重要提醒：
+
+        - 没有 API 密钥时，AI 功能将不可用
+        - 系统具有优雅降级机制，基础功能仍可正常使用
+        - 建议设置自定义域名以获得更好的用户体验
+
+        ## 📖 更多信息：
+
+        - [使用文档](https://github.com/your-username/literature-ai-system/blob/main/README.md)
+        - [部署指南](https://github.com/your-username/literature-ai-system/blob/main/DEPLOY_ZEABUR.md)
+
+        祝您使用愉快！🚀

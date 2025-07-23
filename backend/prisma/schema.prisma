@@ -18,7 +18,9 @@ model User {
   role         String   @default("user")
   vip_expire_at DateTime?
   created_at   DateTime @default(now())
+  updated_at   DateTime @updatedAt
   orders       Order[]
+  documents    Document[]
 }
 
 model Order {
@@ -30,4 +32,52 @@ model Order {
   status          String
   stripeSessionId String
   created_at      DateTime @default(now())
-} 
+}
+
+model Document {
+  id            String   @id @default(uuid())
+  file_id       String   @unique
+  user_id       String?
+  user          User?    @relation(fields: [user_id], references: [id])
+  original_name String
+  file_size     BigInt
+  page_count    Int
+  text_content  String?
+  file_path     String
+  summary       Json?    // 存储结构化摘要JSON
+  keywords      String[] // 关键词数组
+  metadata      Json     @default("{}")
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+
+  // 关联表
+  chunks        DocumentChunk[]
+  qa_history    QAHistory[]
+
+  @@map("documents")
+}
+
+model DocumentChunk {
+  id          String   @id @default(uuid())
+  document_id String
+  document    Document @relation(fields: [document_id], references: [id], onDelete: Cascade)
+  content     String
+  page_number Int?
+  chunk_index Int
+  token_count Int?
+  // embedding    Vector(1536)? // 暂时注释，等添加向量扩展后启用
+  created_at  DateTime @default(now())
+
+  @@map("document_chunks")
+}
+
+model QAHistory {
+  id          String   @id @default(uuid())
+  document_id String
+  document    Document @relation(fields: [document_id], references: [id], onDelete: Cascade)
+  question    String
+  answer      String
+  created_at  DateTime @default(now())
+
+  @@map("qa_history")
+}

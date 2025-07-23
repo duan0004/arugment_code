@@ -1,6 +1,12 @@
-# 📘 文献智能解读模块
+# 📘 文献智能解读系统
 
 一个基于AI的学术文献智能分析系统，支持PDF上传、自动摘要、关键词提取和交互式问答。
+
+## 🚀 一键部署
+
+[![Deploy on Zeabur](https://zeabur.com/button.svg)](https://zeabur.com/templates/literature-ai-system)
+
+点击上方按钮即可一键部署到 Zeabur 云平台。详细部署指南请查看 [DEPLOY_ZEABUR.md](./DEPLOY_ZEABUR.md)。
 
 ## 🚀 功能特性
 
